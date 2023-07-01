@@ -1,0 +1,70 @@
+class TreeNode:
+    def __init__(self, label, children=None):
+        self.label = label
+        self.children = children if children else []
+
+def generate_code(node):
+    code = ""
+
+    if not node:
+        return code
+
+    code += node.label
+
+    if node.children:
+        code += "("
+        for child in node.children:
+            code += generate_code(child)
+            code += ", "
+        code = code[:-2]  # Remove the trailing comma and space
+        code += ")"
+
+    return code
+
+
+# Create a sample labeled tree
+tree = TreeNode("add", [
+    TreeNode("multiply", [
+        TreeNode("2"),
+        TreeNode("3")
+    ]),
+    TreeNode("subtract", [
+        TreeNode("5"),
+        TreeNode("4")
+    ])
+])
+
+# Generate code from the labeled tree
+generated_code = generate_code(tree)
+print("Generated code:", generated_code)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+To generate code from a labeled tree in Python, you can use a recursive approach. Here's an example that demonstrates code generation using a labeled tree:
+
+In this example, we define a TreeNode class to represent each node in the labeled tree. Each node has a label and a list of children nodes. The generate_code function takes a node as input and recursively generates the code by traversing the labeled tree.
+
+The example creates a sample labeled tree representing the expression (2 * 3) + (5 - 4). The generate_code function generates the corresponding code as add(multiply(2, 3), subtract(5, 4)) and prints it. You can modify the structure of the labeled tree and the code generation logic to suit your specific requirements.
+"""

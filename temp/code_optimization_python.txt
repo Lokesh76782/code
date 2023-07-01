@@ -1,0 +1,92 @@
+import ast
+
+
+def optimize_code(code):
+    # Parse the code into an abstract syntax tree (AST)
+    tree = ast.parse(code)
+
+    # Perform constant folding optimization
+    optimized_tree = ConstantFolding().visit(tree)
+
+    # Convert the optimized AST back to code
+    optimized_code = ast.unparse(optimized_tree)
+
+    return optimized_code
+
+
+class ConstantFolding(ast.NodeTransformer):
+    def visit_BinOp(self, node):
+        if isinstance(node.left, ast.Num) and isinstance(node.right, ast.Num):
+            try:
+                result = eval(ast.unparse(node))
+                return ast.Num(n=result)
+            except:
+                pass
+        return self.generic_visit(node)
+
+
+# Example code before optimization
+original_code = """
+a = 2 + 3
+b = a * 4
+c = (b - 5) / 2
+"""
+
+# Perform code optimization
+optimized_code = optimize_code(original_code)
+
+# Print the optimized code
+print("Original code:")
+print(original_code)
+print("Optimized code:")
+print(optimized_code)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+Certainly! Here's an example of a program that performs a basic code optimization technique called constant folding in Python:
+
+In this example, the optimize_code function takes the original code as input, applies the constant folding optimization using the ConstantFolding class, and returns the optimized code.
+
+The ConstantFolding class is a subclass of ast.NodeTransformer that overrides the visit_BinOp method to perform constant folding optimization. It checks if both the left and right operands of a binary operation are numeric constants (ast.Num) and evaluates the operation at compile time using the eval function. If the evaluation is successful, it replaces the original operation with a new numeric constant (ast.Num) containing the computed result.
+
+The example demonstrates the optimization on a simple piece of code that performs arithmetic operations. The original code adds two numbers, multiplies the result by another number, and then performs subtraction and division. The constant folding optimization simplifies the arithmetic expressions by evaluating them at compile time and replacing them with the computed constants.
+
+After running the program, it will print the original code and the optimized code to demonstrate the effect of the optimization.
+"""
+
+
+
+
+
