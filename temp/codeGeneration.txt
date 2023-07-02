@@ -1,0 +1,77 @@
+#code generation for optimized 3-addr code:
+
+def gen_code(expr):
+    reg=[]              #registers list 
+    t_code=[]       #target code list
+    i=0
+    print('\n Generated Target Code: \n') 
+    for q in expr:
+        if q[1] not in reg:             #check if arg1 is in register or not
+            reg.append(q[1])
+            print('\t'f'MOV {q[1]} , R{i}            {q[1]} in R{i}')
+            i+=1
+        if q[0]=='+':
+            print('\t'f'ADD {q[2]} , R{i-1}            {q[3]} in R{i-1}')
+            reg.append(q[3])
+        if q[0]=='-':
+            print('\t'f'SUB {q[2]} , R{i-1}            {q[3]} in R{i-1})')
+            reg.append(q[3])
+        if q[0]=='*':
+            print('\t'f'MUL {q[2]} , R{i-1}            {q[3]} in R{i-1})')
+            reg.append(q[3])
+        if q[0]=='/':
+            print('\t'f'DIV {q[2]} , R{i-1}             {q[3]} in R{i-1}')
+            reg.append(q[3])
+        if q[0]=='=':
+            print('\t'f'MOV R{i-1} , {q[3]}            {q[3]} in Memory')
+            reg.append(q[3])
+            
+
+def gen_expr():         #takes input in form of quadruples
+    expr=[]
+    n=int(input('enter the no of quadruples: '))
+    for i in range(n):
+          op=input('enter the operator(+,-,*,/,=): ')
+          arg1=input('enter the argument 1: ')
+          arg2=input('enter the argument 2: ')
+          res=input('enter the result: ')
+          
+          expr.append([op,arg1,arg2,res])
+
+    return expr
+
+gen_code(gen_expr())
+
+
+
+
+
+'''
+try to take inputs like the res of 1st expr == arg1 of 2nd expr
+if op is = then dont take arg2 as it is of no use
+eg.
+enter the no of quadruples: 3
+enter the operator(+,-,*,/,=): +
+enter the argument 1: x
+enter the argument 2: y
+enter the result: t1
+enter the operator(+,-,*,/,=): +
+enter the argument 1: t1
+enter the argument 2: q
+enter the result: t2
+enter the operator(+,-,*,/,=): =
+enter the argument 1: t2
+enter the argument 2: 
+enter the result: t3
+
+o/p:
+
+ Generated Target Code: 
+
+	MOV x , R0            x in R0
+	ADD y , R0            t1 in R0
+	ADD q , R0            t2 in R0
+	MOV R0 , t3            t3 in Memory
+	
+
+'''
